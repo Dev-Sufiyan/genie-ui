@@ -8,7 +8,6 @@ import {
   NavItem,
 } from "@fluentui/react-nav-preview";
 import { Tooltip, makeStyles, tokens } from "@fluentui/react-components";
-import { AppRoutes } from '../../../routes';
 
 const useStyles = makeStyles({
   root: {
