@@ -8,7 +8,6 @@ import {
   NavItem,
 } from "@fluentui/react-nav-preview";
 import { Tooltip, makeStyles, tokens } from "@fluentui/react-components";
-import { AppRoutes } from '../../../routes';
 
 const useStyles = makeStyles({
   root: {
@@ -37,12 +36,23 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
   const styles = useStyles();
   const [isOpen, setIsOpen] = React.useState(false);
   const type = "overlay";
-
+  const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+  
   const renderHamburgerWithToolTip = () => (
     <Tooltip content="Navigation" relationship="label">
       <Hamburger onClick={() => setIsOpen(!isOpen)} />
     </Tooltip>
   );
+
+  const renderSelectedComponent = () => {
+    const SelectedComponent = props.items[selectedItemIndex]?.component || null;
+    return SelectedComponent;
+  };
+
+  const handleNavItemClick = (index: number) => {
+    setSelectedItemIndex(index);
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className={styles.root}>
@@ -52,12 +62,12 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
       >
         <NavDrawerHeader>{renderHamburgerWithToolTip()}</NavDrawerHeader>
         <NavDrawerBody>
-          {props.items.map((item) => (
+          {props.items.map((item, index) => (
             <NavItem
               key={item.value}
-              href={item.href}
               icon={item.icon}
               value={item.value}
+              onClick={() => handleNavItemClick(index)} // Set index on click
             >
               {item.text}
             </NavItem>
@@ -66,7 +76,7 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
       </NavDrawer>
       <div className={styles.content}>
         {!isOpen && renderHamburgerWithToolTip()}
-        <AppRoutes/>
+        {!isOpen && renderSelectedComponent()}
       </div>
     </div>
   );

@@ -12,6 +12,6 @@ const DashboardIcon = bundleIcon(Board20Filled, Board20Regular);
 const AnnouncementsIcon = bundleIcon(MegaphoneLoud20Filled, MegaphoneLoud20Regular);
 
 export const navItems: DrawerItem[] = [
-    { href: "/", icon: <DashboardIcon />, text: "Dashboard", value: "1" },
-    { href: "/announcements", icon: <AnnouncementsIcon />, text: "Announcements", value: "2" },
+    { icon: <DashboardIcon />, text: "Dashboard", value: "1" ,component:<DashboardIcon />},
+    {  icon: <AnnouncementsIcon />, text: "Announcements", value: "2" , component:<AnnouncementsIcon />},
   ];
