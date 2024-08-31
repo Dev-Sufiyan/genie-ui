@@ -8,12 +8,13 @@ import {
   NavItem,
 } from "@fluentui/react-nav-preview";
 import { Tooltip, makeStyles, tokens } from "@fluentui/react-components";
+import { AppRoutes } from '../../../routes';
 
 const useStyles = makeStyles({
   root: {
     overflow: "hidden",
     display: "flex",
-    height: "600px",
+    height : "100vh",
   },
   content: {
     flex: "1",
@@ -35,7 +36,7 @@ const useStyles = makeStyles({
 export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
   const styles = useStyles();
   const [isOpen, setIsOpen] = React.useState(false);
-  const type = "inline";
+  const type = "overlay";
 
   const renderHamburgerWithToolTip = () => (
     <Tooltip content="Navigation" relationship="label">
@@ -46,8 +47,6 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
   return (
     <div className={styles.root}>
       <NavDrawer
-        defaultSelectedValue="1"
-        defaultSelectedCategoryValue="1"
         open={isOpen}
         type={type}
       >
@@ -67,6 +66,7 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
       </NavDrawer>
       <div className={styles.content}>
         {!isOpen && renderHamburgerWithToolTip()}
+        <AppRoutes/>
       </div>
     </div>
   );
