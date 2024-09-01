@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DigitBox } from "./";
-import "../../../styles/common.css";
+import { DigitBox } from ".";
 
 interface NumberBoxProps {
   number: number;

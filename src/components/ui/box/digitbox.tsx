@@ -10,7 +10,7 @@ const DigitBox: React.FC<DigitBoxProps> = ({ digit }) => {
   const nodeRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="digit-container">
+    <div className="digit-container" >
       <SwitchTransition>
         <CSSTransition
           key={digit}
