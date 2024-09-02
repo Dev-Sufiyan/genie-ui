@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { NumberBox } from "../ui/box";
 import {
   CompoundButton,
@@ -6,9 +6,11 @@ import {
   tokens,
   makeStyles,
   Input,
+  Text 
 } from "@fluentui/react-components";
 import { AddSquareFilled } from "@fluentui/react-icons";
 import "../../styles/common.css";
+import { getCount,addCount } from "../../utils/api";
 
 const useStyles = makeStyles({
   root: {
@@ -51,13 +53,35 @@ const useStyles = makeStyles({
 });
 
 const Dashboard: React.FC = () => {
-  const [number, setNumber] = useState<number>(99999999);
+  const [number, setNumber] = useState<number>(0);
   const [inputValue, setInputValue] = useState<number | "">("");
+
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const data: number = await getCount();
+        setNumber(data);
+      } catch (error) {
+        console.error('Error fetching count:', error);
+        setNumber(0);
+      }
+    };
+  
+    fetchCount();
+    const intervalId = setInterval(fetchCount, 5000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const styles = useStyles();
 
-  const incrementNumber = (valueToAdd: number) => {
-    setNumber((prevNumber) => prevNumber + valueToAdd);
+  const incrementNumber = async (valueToAdd: number) => {
+    try {
+      await addCount(valueToAdd);
+      const updatedCount = await getCount();
+      setNumber(updatedCount);
+    } catch (error) {
+      console.error('Error incrementing number:', error);
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +100,8 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className={styles.root}>
+      <Text size={700} weight="bold" font="monospace">FAIZAN-E-AULIYA</Text>
+      <Text size={700} weight="bold" font="monospace">CHARITABLE TRUST</Text>
       <div>
         <NumberBox number={number} />
       </div>
