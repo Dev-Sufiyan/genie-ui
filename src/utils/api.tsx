@@ -3,22 +3,18 @@ const baseURL = 'https://genie-counter-webapi-ajeve6bphcgrcycm.centralindia-01.a
 export const getCount = async (): Promise<number> => {
     try {
       const response = await fetch(baseURL);
-      console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-      const text = await response.text(); // Get raw response text
-      console.log('Response text:', text);
-      const data = JSON.parse(text); // Parse response text to JSON
-      console.log('Parsed data:', data);
-      if (typeof data.totalCount === 'number') {
-        return data.totalCount;
-      } else {
-        throw new Error('totalCount is not a number or is missing');
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+      const data = await response.json();
+      return data.totalCount as number; // Ensure the return type is a number
     } catch (error) {
       console.error('Error fetching count:', error);
       throw error;
     }
 };
+  
 
   export const addCount = async (num: number) => {
     try {
