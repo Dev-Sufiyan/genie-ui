@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NumberBox } from "../ui/box";
 import {
   CompoundButton,
@@ -6,11 +6,12 @@ import {
   tokens,
   makeStyles,
   Input,
-  Text 
+  Text
 } from "@fluentui/react-components";
 import { AddSquareFilled } from "@fluentui/react-icons";
 import "../../styles/common.css";
-import { getCount,addCount } from "../../utils/api";
+import { getCount, addCount } from "../../utils/api";
+import myImg from '../../custome/Logo.jpg';
 
 const useStyles = makeStyles({
   root: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center", // Center align items
     rowGap: "10px", // Adjust gap between elements
+    maxHeight: "100vh", // Limit height to viewport height
+    overflowY: "auto", // Enable vertical scrolling if content overflows
+    padding: "10px" // Add padding if needed
   },
   divider: {
     display: "flex",
@@ -100,6 +104,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className={styles.root}>
+      <img src={myImg} alt="FAIZAN-E-AULIYA" style={{ width: '150px', height: '150px' }}/>
       <Text size={700} weight="bold" font="monospace">FAIZAN-E-AULIYA</Text>
       <Text size={700} weight="bold" font="monospace">CHARITABLE TRUST</Text>
       <div>
