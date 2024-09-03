@@ -61,7 +61,7 @@ export const Drawer: React.FC<{ items: DrawerItem[] }> = (props) => {
         type={type}
       >
         <NavDrawerHeader>{renderHamburgerWithToolTip()}</NavDrawerHeader>
-        <NavDrawerBody>
+        <NavDrawerBody style={{ overflowY: 'scroll', maxHeight: '100%' }}>
           {props.items.map((item, index) => (
             <NavItem
               key={item.value}
