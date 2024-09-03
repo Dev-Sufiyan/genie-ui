@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NumberBox } from "../ui/box";
 import {
-  CompoundButton,
   Divider,
   tokens,
   makeStyles,
