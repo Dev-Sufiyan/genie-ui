@@ -1,4 +1,4 @@
-const baseURL = 'https://genie-counter-webapi-ajeve6bphcgrcycm.centralindia-01.azurewebsites.net/api/Count';
+const baseURL = 'https://counter-2-hvchewf2hzbjfeev.southindia-01.azurewebsites.net/api/Count';
 
 export const getCount = async (): Promise<number> => {
     try {
