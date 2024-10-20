@@ -1,185 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { NumberBox } from "../ui/box";
-import {
-  Divider,
-  tokens,
-  makeStyles,
-  Input,
-  Text,
-  Button,
-} from "@fluentui/react-components";
-import { AddSquareFilled } from "@fluentui/react-icons";
-import "../../styles/common.css";
-import { getCount, addCount } from "../../utils/api";
-import myImg from "../../custome/Logo.jpg";
+import React, { useState } from "react";
+import { PrimaryButton, Stack } from "@fluentui/react";
+import { Dropdown, IDropdownOption } from "@fluentui/react/lib/Dropdown";
+import { TextField } from "@fluentui/react/lib/TextField";
+import { Label } from "@fluentui/react-components";
+import '../../styles/mobilePage.css'
+const options: IDropdownOption[] = [
+  { key: "option1", text: "Option 1" },
+  { key: "option2", text: "Option 2" },
+  { key: "option3", text: "Option 3" },
+];
 
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    rowGap: "5px",
-    maxHeight: "90vh",
-    overflowY: "auto",
-    padding: "5px",
-    width: "100%", // Ensure it takes full width
-  },
-  divider: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "40px",
-    backgroundColor: tokens.colorNeutralBackground1,
-    width: "100%",
-    minHeight : "40px"
-  },
-  dividerContent: {
-    fontSize: "18px",
-  },
-  iconWrapper: {
-    display: "flex",
-    alignItems: "center",
-  },
-  inputContainer: {
-    display: "flex",
-    flexDirection: "column",
-    rowGap: "10px",
-    marginTop: "10px",
-    width: "100%",
-    maxWidth: "350px",
-  },
-  input: {
-    width: "100%",
-  },
-  button: {
-    width: "100%",
-    minHeight :"30px",
-    maxWidth: "350px",
-    fontWeight: "normal",
-  },
-  img: {
-    width: "100px",
-    height: "100px",
-  },
-  text: {
-    textAlign: "center", // Center text for mobile devices
-  },
-  "@media (max-width: 600px)": {
-    img: {
-      width: "100px", // Resize for smaller screens
-      height: "100px",
-    },
-    dividerContent: {
-      fontSize: "16px",
-    },
-  },
-});
+const SearchableDropdownForm: React.FC = () => {
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined
+  );
+  const [amount, setAmount] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
-const Dashboard: React.FC = () => {
-  const [number, setNumber] = useState<number>(0);
-  const [inputValue, setInputValue] = useState<number | "">("");
-  const [message, setMessageValue] = useState("");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    checkFormValidation();
+    console.log("Form submitted:", { selectedOption, amount });
+  };
 
-  useEffect(() => {
-    const fetchCount = async () => {
-      try {
-        const data: number = await getCount();
-        setNumber(data);
-      } catch (error) {
-        console.error("Error fetching count:", error);
-        setNumber(0);
-      }
-    };
-    fetchCount();
-    const intervalId = setInterval(fetchCount, 5000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const styles = useStyles();
-
-  const incrementNumber = async (valueToAdd: number) => {
-    try {
-      await addCount(valueToAdd);
-      const updatedCount = await getCount();
-      setNumber(updatedCount);
-    } catch (error) {
-      console.error("Error incrementing number:", error);
+  const checkFormValidation = (): void =>{
+    if (!selectedOption) {
+      setError("Please select an Unit.");
+      return ;
     }
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const numericValue = value === "" ? "" : Number(value);
-
-    if (
-      numericValue === "" ||
-      (numericValue >= 1 && numericValue <= 1000000000)
-    ) {
-      setInputValue(numericValue);
+    if (!amount) {
+      setError("Amount is required.");
+      return;
     }
-  };
-
-  const handleButtonClick = () => {
-    incrementNumber(Number(inputValue));
-    if(inputValue !== '')setMessageValue(`આપકે દ્વારા પઢા ગયા ${inputValue} દુરૂદ Count કર લિયા ગયા હૈ.`)
-    setInputValue(""); // Clear input after adding
-  };
-
+    setError("");
+  }
   return (
-    <div className={styles.root}>
-      <img src={myImg} alt="FAIZAN-E-AULIYA" className={styles.img} />
-      <Text size={700} weight="bold" font="monospace" className={styles.text}>
-        FAIZAN-E-AULIYA
-      </Text>
-      <Text size={700} weight="bold" font="monospace" className={styles.text}>
-        CHARITABLE TRUST
-      </Text>
-      <div>
-        <NumberBox number={number} />
-      </div>
-      <Button
-        className={styles.button}
-        icon={
-          <div className={styles.iconWrapper}>
-            <span>1</span>
-          </div>
-        }
-        appearance="primary"
-        onClick={() => incrementNumber(1)}
-      >
-        એક બાર પઢે ગયે દુરૂદ શરીફ કે લિયે યહાં ક્લિક કરે
-      </Button>
-
-      <div className={styles.divider}>
-        <Divider className={styles.dividerContent}>or</Divider>
-      </div>
-      <div>
-        કોઈ ભી દુરૂદ શરીફ આપકે દ્વારા કિતની મર્તબા પઢા ગયા વો નીચે લિખે. :
-      </div>
-      <div className={styles.inputContainer}>
-        <Input
-          className={styles.input}
-          size="large"
-          type="number"
-          placeholder="Select Durood Count"
-          value={inputValue === "" ? "" : inputValue.toString()}
-          onChange={handleInputChange}
-        />
-        <Button
-          className={styles.button}
-          icon={<AddSquareFilled />}
-          appearance="primary"
-          onClick={handleButtonClick}
-        >
-          સબમીટ કરને કે લિયે યહાં ક્લિક કરે
-        </Button>
-        <div>
-          {message}
-        </div>
+    <div className="box-container">
+      <div className="box">
+        <div className="txt">Collect Donation</div>
+        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+          <Stack tokens={{ childrenGap: 10 }}>
+            <div>
+              <Label htmlFor="dropdown">
+                Select Unit <span style={{ color: "red" }}>*</span>
+              </Label>
+              <Dropdown
+                id="dropdown"
+                placeholder="Select an Unit"
+                options={options}
+                onChange={(e, option) =>
+                  setSelectedOption(option?.key as string)
+                }
+                style={{ width: "100%" }}
+              />
+            </div>
+            <div>
+              <Label htmlFor="amount">
+                Amount <span style={{ color: "red" }}>*</span>
+              </Label>
+              <TextField
+                type="number"
+                id="amount"
+                value={amount}
+                onChange={(e, newValue) => setAmount(newValue || "")} // Handle amount input
+                style={{ width: "100%" }}
+                required
+              />
+            </div>
+            {error && <div style={{ color: "red" }}>{error}</div>}
+            <PrimaryButton type="submit" style={{ width: "100%" }}>
+              Submit
+            </PrimaryButton>
+          </Stack>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default SearchableDropdownForm;

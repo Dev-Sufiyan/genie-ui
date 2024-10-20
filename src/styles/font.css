@@ -1,0 +1,13 @@
+.font-container {
+    display: flex;               /* Enables flexbox layout */
+    justify-content: center;     /* Centers content horizontally */
+    align-items: center;         /* Centers content vertically */
+    margin: 20px;                   /* Removes default margin */
+    padding: 0;                  /* Removes default padding */
+}
+
+.font-center-lg {
+    color: rgb(189, 188, 188);            /* Light gray color for the text */
+    text-align: center;          /* Centers the text for any line breaks */
+    font-size: 20px;
+}
