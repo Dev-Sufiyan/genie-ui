@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fallback fonts */
+  font-weight: 100;
+  line-height: 1.5; /* Default line height for body text */
+}
+
+
+html {
+  font-size: 100%; /* 16px */
+}
+
+h1 {
+  font-size: 4.210rem; /* 67.36px */
+  line-height: 1.1; /* Line height for h1 */
+}
+
+h2 {
+  font-size: 3.158rem; /* 50.56px */
+  line-height: 1.1; /* Line height for h2 */
+}
+
+h3 {
+  font-size: 2.369rem; /* 37.92px */
+  line-height: 1.1; /* Line height for h3 */
+}
+
+h4 {
+  font-size: 1.777rem; /* 28.48px */
+  line-height: 1.1; /* Line height for h4 */
+}
+
+h5 {
+  font-size: 1.333rem; /* 21.28px */
+  line-height: 1.1; /* Line height for h5 */
+}
+
+small {
+  font-size: 0.750rem; /* 12px */
+  line-height: 1.5; /* Line height for small text */
+}

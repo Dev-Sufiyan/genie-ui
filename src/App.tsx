@@ -1,13 +1,22 @@
-import { FluentProvider, webLightTheme } from '@fluentui/react-components';import './App.css';
-import { Drawer} from './components/layout/nav';
-import { navItems } from './custome';
+import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useState } from "react";
+import { AppRoutes } from "./routes";
+import './App.css'
 
-function App() {
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
   return (
     <FluentProvider theme={webLightTheme}>
-      <Drawer items={navItems}/>
+      <Router>
+        <AppRoutes
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+        />
+      </Router>
     </FluentProvider>
   );
-}
+};
 
 export default App;

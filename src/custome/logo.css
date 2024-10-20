@@ -1,0 +1,24 @@
+.logo-container {
+    text-align: center;
+    margin: 5px;
+  }
+  
+  .logo-img {
+    width: 60%;
+    height: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .logo-img:hover {
+    transform: scale(1.1);  /* Slightly enlarge the logo */
+    opacity: 0.8;           /* Slightly fade the logo */
+  }
+  
+  .logo-heading {
+    font-size: 20px;
+    line-height: 1.5; /* Default line height for body text */
+    margin-top: -10px;
+    font-weight: 400;
+    color: #333;
+  }
+  

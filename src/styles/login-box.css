@@ -1,0 +1,22 @@
+.box-container {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: auto; /* Full viewport height */
+}
+
+.login-box {
+    background-color: #ffffff; /* Background color of the box */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    padding: 20px; /* Inner padding */
+    max-width: 400px; /* Maximum width of the box */
+    width: 100%; /* Full width on smaller screens */
+    margin: 20px; /* Margin for spacing */
+    transition: transform 0.2s; /* Smooth transition for hover effect */
+}
+
+/* Optional hover effect for a more interactive feel */
+.login-box:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+}
