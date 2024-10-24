@@ -1,11 +1,11 @@
-.container {
+.page-container {
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     height: auto; /* Full viewport height */
 }
 
-.box {
+.page-border {
     background-color: #ffffff; /* Background color of the box */
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Shadow effect */
@@ -15,7 +15,12 @@
     margin: 20px; /* Margin for spacing */
     transition: transform 0.2s; /* Smooth transition for hover effect */
 }
-.txt {
+
+.login-box:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.txtCenterGrey {
     text-align: center;
     background-color: #fff;
     border-radius: 10px;
