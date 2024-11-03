@@ -15,7 +15,7 @@ const SuccessPage: React.FC = () => {
   }, [navigate]);
 
   return (
-    <div className="success-page">
+    <div>
       <div className="success-message">
         <CheckmarkCircle48Filled className="success-icon" />
         <h5>Sign in success!</h5>

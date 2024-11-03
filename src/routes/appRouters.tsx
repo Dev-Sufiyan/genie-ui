@@ -10,10 +10,10 @@ interface AppRoutesProps {
 const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated, setIsAuthenticated }) => {
   return (
     <Routes>
-      <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+      <Route path="*" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
       <Route path="/sucessLogin" element={<SucessLogin/>} />
       <Route
-        path="*"
+        path="/home"
         element={
           <ProtectedRoute isAuthenticated={isAuthenticated}>
             <Home />
