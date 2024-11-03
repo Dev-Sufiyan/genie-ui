@@ -79,7 +79,13 @@ const UnitSelectionForm: React.FC = () => {
     if (option) {
       setSelectedUnit(option.key as string);
     } else if (value) {
-      setSelectedUnit(value);
+      // Check if the input value matches a valid option
+      const matchedOption = initialUnits.find(opt => opt.text === value);
+      if (matchedOption) {
+        setSelectedUnit(matchedOption.key as string);
+      } else {
+        setSelectedUnit(undefined); // Discard the input if no match
+      }
     }
   };
 
@@ -93,14 +99,20 @@ const UnitSelectionForm: React.FC = () => {
   const onSubmit = () => {
     if (!selectedUnit || !amount) {
       setError("Both Unit and Amount are required.");
+      // Clear input if no valid unit is selected
+      if (!selectedUnit) {
+        setFilteredUnits(initialUnits); // Reset the filtered units
+        setSelectedUnit(undefined); // Clear selection
+      }
       return;
     }
 
     setError(null);
     console.log("Selected Unit Key:", selectedUnit);
     console.log("Amount:", parseFloat(amount));
-    setConfirmPopupOpen(true)
+    setConfirmPopupOpen(true);
   };
+
   const handleConfirm = async (id: string, amount: string) => {
     // Simulate an API call
     return new Promise<boolean>((resolve) => {
@@ -120,7 +132,7 @@ const UnitSelectionForm: React.FC = () => {
       )}
       <ComboBox
         label="Select Unit"
-        placeholder="Double click here to select an option"
+        placeholder="Search or select an option"
         options={filteredUnits} // Use the filtered options here
         onChange={onUnitChange}
         onInputValueChange={onInputChange} // Filter options based on input
@@ -145,7 +157,7 @@ const UnitSelectionForm: React.FC = () => {
       />
       <TextField
         label="Amount"
-        placeholder="Enter donation amount"
+        placeholder="Enter a value"
         value={amount}
         onChange={onAmountChange}
         required
