@@ -29,3 +29,8 @@
     padding-bottom: 20px;
     font-weight: 300;
   }
+
+  .centerdiv{
+    text-align: center;
+    justify-content: center;
+  }

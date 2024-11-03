@@ -9,6 +9,7 @@ import {
   MessageBarType,
   IComboBox,
 } from "@fluentui/react";
+import ConfirmDtPopup from "./confimDtPopup";
 
 interface Person {
   id: string;
@@ -54,6 +55,7 @@ const UnitSelectionForm: React.FC = () => {
   const [selectedUnit, setSelectedUnit] = useState<string | undefined>();
   const [amount, setAmount] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [isConfirmPopupOpen, setConfirmPopupOpen] = useState(false);
 
   const onInputChange = (newValue?: string) => {
     if (newValue) {
@@ -97,8 +99,17 @@ const UnitSelectionForm: React.FC = () => {
     setError(null);
     console.log("Selected Unit Key:", selectedUnit);
     console.log("Amount:", parseFloat(amount));
+    setConfirmPopupOpen(true)
   };
-
+  const handleConfirm = async (id: string, amount: string) => {
+    // Simulate an API call
+    return new Promise<boolean>((resolve) => {
+      setTimeout(() => {
+        resolve(Math.random() > 0.5); // Randomly resolve as success or failure
+      }, 2000); // Simulate a 2-second delay
+    });
+  };
+  
   return (
     <Stack tokens={{ childrenGap: 15 }}>
       <div className="txtCenterGrey">Collect Donation</div>
@@ -143,6 +154,13 @@ const UnitSelectionForm: React.FC = () => {
         ariaLabel="Amount input"
       />
       <PrimaryButton text="Submit" onClick={onSubmit} />
+      <ConfirmDtPopup
+        isOpen={isConfirmPopupOpen}
+        onClose={() => setConfirmPopupOpen(false)}
+        id={selectedUnit || ""}
+        amount={amount}
+        onConfirm={handleConfirm}
+      />
     </Stack>
   );
 };
