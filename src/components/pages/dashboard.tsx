@@ -120,7 +120,7 @@ const UnitSelectionForm: React.FC = () => {
       )}
       <ComboBox
         label="Select Unit"
-        placeholder="Search or select an option"
+        placeholder="Double click here to select an option"
         options={filteredUnits} // Use the filtered options here
         onChange={onUnitChange}
         onInputValueChange={onInputChange} // Filter options based on input
@@ -145,7 +145,7 @@ const UnitSelectionForm: React.FC = () => {
       />
       <TextField
         label="Amount"
-        placeholder="Enter a double value"
+        placeholder="Enter donation amount"
         value={amount}
         onChange={onAmountChange}
         required
