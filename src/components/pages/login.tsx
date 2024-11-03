@@ -13,24 +13,34 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>(""); 
+  const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
 
-  const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); 
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (!username || !password) {
-      setError("Both fields are required."); 
+      setError("Both fields are required.");
       return;
     }
 
-    setError(""); 
-    if (await new LoginHelper().validateCredentials(username, password)) {
-      setIsAuthenticated(true);
-      navigate("/sucessLogin");
-    } else {
-      setError("Invalid Login Credential."); 
+    setError("");
+    try {
+      const isValid = await new LoginHelper().validateCredentials(
+        username,
+        password
+      );
+
+      if (isValid) {
+        setIsAuthenticated(true);
+        navigate("/sucessLogin");
+      } else {
+        setError("Invalid Login Credential.");
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      setError("Server error. Please try again later.");
       setIsAuthenticated(false);
     }
   };
@@ -48,9 +58,9 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
               Username <span style={{ color: "red" }}>*</span>
             </Label>
             <Input
-              type="text" 
-              id="username" 
-              value={username} 
+              type="text"
+              id="username"
+              value={username}
               onChange={(e) => setUsername(e.target.value)}
               style={{ width: "100%" }}
               required
