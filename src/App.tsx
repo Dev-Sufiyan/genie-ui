@@ -4,10 +4,11 @@ import { useState } from "react";
 import { AppRoutes } from "./routes";
 import "./App.css";
 import "./styles/mobilePage.css";
+import { initializeIcons } from "@fluentui/react";
 
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
+  initializeIcons();
   return (
     <FluentProvider theme={webLightTheme}>
       <div className="page-container">

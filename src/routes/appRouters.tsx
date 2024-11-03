@@ -1,17 +1,19 @@
-import { Routes, Route } from 'react-router-dom';
-import { Login, Home , SucessLogin} from '../components/pages';
-import { ProtectedRoute } from '.';
+import { Routes, Route } from "react-router-dom";
+import { Login, Home, SucessLogin } from "../components/pages";
+import { ProtectedRoute } from ".";
 
 interface AppRoutesProps {
   isAuthenticated: boolean;
   setIsAuthenticated: (auth: boolean) => void;
 }
 
-const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated, setIsAuthenticated }) => {
+const AppRoutes: React.FC<AppRoutesProps> = ({
+  isAuthenticated,
+  setIsAuthenticated,
+}) => {
   return (
     <Routes>
-      <Route path="*" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-      <Route path="/sucessLogin" element={<SucessLogin/>} />
+      <Route path="/sucessLogin" element={<SucessLogin />} />
       <Route
         path="/home"
         element={
@@ -19,6 +21,10 @@ const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated, setIsAuthenticat
             <Home />
           </ProtectedRoute>
         }
+      />
+      <Route
+        path="*"
+        element={<Login setIsAuthenticated={setIsAuthenticated} />}
       />
     </Routes>
   );
