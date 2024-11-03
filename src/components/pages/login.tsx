@@ -4,6 +4,7 @@ import { Logo } from "../../custome";
 import "../../styles/font.css";
 import { PrimaryButton, Stack } from "@fluentui/react";
 import { Input, Label } from "@fluentui/react-components";
+import LoginHelper from "../util/LoginHelper";
 
 interface LoginProps {
   setIsAuthenticated: (auth: boolean) => void;
@@ -12,25 +13,24 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>(""); // State to hold validation error messages
+  const [error, setError] = useState<string>(""); 
 
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+  const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); 
 
-    // Basic validation to ensure fields are not empty
     if (!username || !password) {
-      setError("Both fields are required."); // Set error message if validation fails
+      setError("Both fields are required."); 
       return;
     }
 
-    setError(""); // Clear error message if validation passes
-    if (username === "admin" && password === "admin@123") {
+    setError(""); 
+    if (await new LoginHelper().validateCredentials(username, password)) {
       setIsAuthenticated(true);
       navigate("/sucessLogin");
     } else {
-      setError("Invalid Login Credential."); // Set error message if validation fails
+      setError("Invalid Login Credential."); 
       setIsAuthenticated(false);
     }
   };
@@ -48,9 +48,9 @@ const Login: React.FC<LoginProps> = ({ setIsAuthenticated }) => {
               Username <span style={{ color: "red" }}>*</span>
             </Label>
             <Input
-              type="text" // Changed to text for username
-              id="username" // Added id for accessibility
-              value={username} // Fixed the value from email to username
+              type="text" 
+              id="username" 
+              value={username} 
               onChange={(e) => setUsername(e.target.value)}
               style={{ width: "100%" }}
               required
