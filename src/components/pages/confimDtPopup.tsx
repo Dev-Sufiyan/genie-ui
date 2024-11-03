@@ -16,7 +16,7 @@ interface ConfirmDtPopupProps {
   onClose: () => void;
   id: string;
   amount: string;
-  onConfirm: (id: string, amount: string) => Promise<boolean>; // Simulated API call
+  onConfirm: (id: string, amount: string) => Promise<boolean>;
 }
 
 const ConfirmDtPopup: React.FC<ConfirmDtPopupProps> = ({
@@ -28,22 +28,35 @@ const ConfirmDtPopup: React.FC<ConfirmDtPopupProps> = ({
 }) => {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState<boolean | null>(null);
+  const [transactionId, setTransactionId] = React.useState<string | null>(null);
+
+  // Reset the state when the modal is closed
+  const handleClose = () => {
+    setSuccess(null);
+    setTransactionId(null);
+    setLoading(false);  // Ensure loading is also reset
+    onClose();
+  };
 
   const handleConfirm = async () => {
     setLoading(true);
-    // Simulating an API call with a delay
     const result = await onConfirm(id, amount);
+    if (result) {
+      setTransactionId(id);  // Store transaction ID
+    }
     setSuccess(result);
     setLoading(false);
   };
 
   return (
-    <Modal isOpen={isOpen} onDismiss={onClose}>
+    <Modal isOpen={isOpen} onDismiss={handleClose}>
       <div style={{ padding: 20 }}>
-        <Text variant="xLarge">Please Confirm Details :</Text>
+        <Text variant="xLarge">Please Confirm Details:</Text>
         <div>
-          <Text>ID: {id}</Text>
-          <Text>Amount: {amount}</Text>
+          <Text variant="large">ID: {id}</Text>
+        </div>
+        <div>
+          <Text variant="large">Amount: {amount}</Text>
         </div>
 
         <Stack
@@ -51,33 +64,46 @@ const ConfirmDtPopup: React.FC<ConfirmDtPopupProps> = ({
           tokens={{ childrenGap: 10 }}
           style={{ marginTop: 20 }}
         >
-          <PrimaryButton onClick={handleConfirm} disabled={loading}>
+          <PrimaryButton
+            onClick={handleConfirm}
+            disabled={loading || success !== null}
+          >
             {loading ? "Processing..." : "Confirm"}
           </PrimaryButton>
-          <DefaultButton onClick={onClose}>Cancel</DefaultButton>
+          <DefaultButton onClick={handleClose}>
+            {success !== null ? "Close" : "Cancel"}
+          </DefaultButton>
         </Stack>
 
-        <div className="centerdiv">
-          {success !== null && (
-            <Stack tokens={{ childrenGap: 5 }} style={{ marginTop: 20 }}>
-              {success ? (
-                <>
-                  <CheckmarkCircle48Filled style={{ color: "green" }} />
-                  <Text variant="medium">
-                    Success! Your transaction has been completed.
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <ErrorCircle48Filled style={{ color: "red" }} />
-                  <Text variant="medium">
-                    Failed! There was an issue with the transaction.
-                  </Text>
-                </>
-              )}
-            </Stack>
-          )}
-        </div>
+        {success !== null && (
+          <Stack
+            horizontalAlign="center"
+            tokens={{ childrenGap: 10 }}
+            style={{ marginTop: 20 }}
+          >
+            {success ? (
+              <>
+                <CheckmarkCircle48Filled style={{ color: "green" }} />
+                <Text
+                  variant="medium"
+                  styles={{ root: { whiteSpace: "normal", wordWrap: "break-word" } }}
+                >
+                  Success! Your transaction with ID {transactionId} has been completed.
+                </Text>
+              </>
+            ) : (
+              <>
+                <ErrorCircle48Filled style={{ color: "red" }} />
+                <Text
+                  variant="medium"
+                  styles={{ root: { whiteSpace: "normal", wordWrap: "break-word" } }}
+                >
+                  Failed! There was an issue with the transaction.
+                </Text>
+              </>
+            )}
+          </Stack>
+        )}
       </div>
     </Modal>
   );
